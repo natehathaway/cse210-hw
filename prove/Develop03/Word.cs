@@ -5,10 +5,10 @@ namespace Develop03
     //Keep trach of a word, whether it is shown or hidden
     public class Word
     {
-        private bool _isHidden;
+        private static bool _isHidden;
         private string _word;
 
-        public bool IsHidden
+        public static bool IsHidden
         {
             get
             {
@@ -16,7 +16,7 @@ namespace Develop03
             }
         }
 
-        public string Hide(string _word)
+        public static string Hide(string _word)
         {
             foreach (char c in _word)
             {
@@ -29,17 +29,17 @@ namespace Develop03
                     _word += "_";
                 }
             }
-            IsHidden = true;
+            _isHidden = true;
             return _word;
         }
 
-        public string Show(string _word)
+        public static string Show(string _word)
         {
             _isHidden = false;
             return _word;
         }
 
-        public void GetRenderedText(string _word)
+        public static void GetRenderedText(string _word)
         {
             Console.WriteLine(_word);
         }
