@@ -23,43 +23,48 @@ namespace Develop03
 
         public void HideWords(List<string> _words)
         {
-            Random random = new Random();    
+            Random random = new Random();
+            
             bool isHidden = Word.IsHidden;
-            foreach (string word in _words)
+            isHidden = false;
+            for(int i = 0; i < _words.Count; i++)
+            // foreach (string word in _words)
             {
                 int randomNum = random.Next(0, 3);
                 if (isHidden == false)
-                {
+                {//fix here
                     if (randomNum == 0)
                     {
-                        Word.Hide(word);
+                        Word.Hide(_words[i]);
                     }
                     else
                     {
-                        Word.Show(word);
+                        Word.Show(_words[i]);
                     }
                 }
                 else
                 {
-                    Word.Show(word);
+                    Word.Show(_words[i]);
                 }
 
             }
         }
 
 
-        public void GetRenderedText(List<string> _words)
+        public void DisplayText(List<string> _words)
         {
+            //This function takes the list of words and displays them in a line
             foreach (string word in _words)
             {
-                Word.GetRenderedText(word);
+                Console.Write(word + " ");
             }
+
         }
 
 
         public void IsCompletelyHidden(List<string> _words)
         {
-            bool isHidden = true;
+            bool isHidden = Word.IsHidden;
             foreach (string word in _words)
             {
                 if (Word.IsHidden == false)
@@ -70,13 +75,6 @@ namespace Develop03
                 {
                     isHidden = true;
                 }
-            }
-            if (isHidden == true)
-            {
-            Console.WriteLine("Thank you for using my program!");
-            Console.WriteLine("press any key to exit.");
-            Console.ReadKey();
-        
             }
         }
     }

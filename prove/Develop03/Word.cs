@@ -7,6 +7,7 @@ namespace Develop03
     {
         private static bool _isHidden;
         private string _word;
+        private string _hiddenWord;
 
         public static bool IsHidden
         {
@@ -16,32 +17,23 @@ namespace Develop03
             }
         }
 
-        public static string Hide(string _word)
+        public static string Hide(string _word, bool _isHidden, string _hiddenWord)
         {
-            foreach (char c in _word)
-            {
-                if (c == ' ')
-                {
-                    _word += " ";
-                }
-                else
-                {
-                    _word += "_";
-                }
-            }
+            //the purpose of Hide is to take the string and replace it with underscores
             _isHidden = true;
-            return _word;
+            _hiddenWord = "";
+            foreach (char letter in _word)
+            {
+                _hiddenWord += "_";
+            }
+            // return hiddenWord;
+            return _hiddenWord;
         }
 
         public static string Show(string _word)
         {
             _isHidden = false;
             return _word;
-        }
-
-        public static void GetRenderedText(string _word)
-        {
-            Console.WriteLine(_word);
         }
     }
 }
