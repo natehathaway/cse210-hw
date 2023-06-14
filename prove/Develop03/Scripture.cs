@@ -5,77 +5,57 @@ namespace Develop03
 {
     //To hold a scripture and its reference, can hide words and display them.
     public class Scripture
+{
+    private string reference;
+    private string text;
+    private List<Word> words;
+
+    public bool AllWordsHidden { get { return words.TrueForAll(w => w.IsHidden); } }
+
+    public Scripture(string reference, string text)
     {
-        private string _verse;
-        private List<string> _words;
-        private Reference _reference;
+        this.reference = reference;
+        this.text = text;
+        InitializeWords();
+    }
 
-        public Scripture(string _verse, List<string> _words, Reference _reference)
+    private void InitializeWords()
+    {
+        words = new List<Word>();
+
+        string[] splitText = text.Split(' ');
+
+        foreach (string wordText in splitText)
         {
-            this._verse = _verse;
-            this._words = _words;
-            this._reference = _reference;
-            List<string> words = new List<string>();
-            words = new List<string>(_verse.Split(' '));
-        }
-
-        
-
-        public void HideWords(List<string> _words)
-        {
-            Random random = new Random();
-            
-            bool isHidden = Word.IsHidden;
-            isHidden = false;
-            for(int i = 0; i < _words.Count; i++)
-            // foreach (string word in _words)
-            {
-                int randomNum = random.Next(0, 3);
-                if (isHidden == false)
-                {//fix here
-                    if (randomNum == 0)
-                    {
-                        Word.Hide(_words[i]);
-                    }
-                    else
-                    {
-                        Word.Show(_words[i]);
-                    }
-                }
-                else
-                {
-                    Word.Show(_words[i]);
-                }
-
-            }
-        }
-
-
-        public void DisplayText(List<string> _words)
-        {
-            //This function takes the list of words and displays them in a line
-            foreach (string word in _words)
-            {
-                Console.Write(word + " ");
-            }
-
-        }
-
-
-        public void IsCompletelyHidden(List<string> _words)
-        {
-            bool isHidden = Word.IsHidden;
-            foreach (string word in _words)
-            {
-                if (Word.IsHidden == false)
-                {
-                    isHidden = false;
-                }
-                if (Word.IsHidden == true)
-                {
-                    isHidden = true;
-                }
-            }
+            Word word = new Word(wordText);
+            words.Add(word);
         }
     }
-}
+
+    public void HideRandomWord()
+    {
+        Random random = new Random();
+        List<Word> visibleWords = words.FindAll(w => !w.IsHidden);
+
+        if (visibleWords.Count > 0)
+        {
+            int randomIndex = random.Next(visibleWords.Count);
+            visibleWords[randomIndex].Hide();
+        }
+    }
+
+    public string GetFormattedScripture()
+    {
+        string formattedScripture = reference + "\n\n";
+
+        foreach (Word word in words)
+        {
+            if (word.IsHidden)
+                formattedScripture += "____ ";
+            else
+                formattedScripture += word.Text + " ";
+        }
+
+        return formattedScripture;
+    }
+}}
